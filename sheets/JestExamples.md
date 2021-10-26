@@ -162,6 +162,37 @@ test("some special mocking", () => {
 
 ### Mock a module with jest.mock  
 
+Next Router example
+```javascript
+import { useRouter } from 'next/router';
+
+jest.mock('next/router', () => ({
+    __esModule: true,
+    useRouter: jest.fn(),
+}));
+
+const mockRouter = {
+    push: jest.fn(),
+};
+
+test('Some Tests', () => {
+    (useRouter as jest.Mock).mockReturnValue(mockRouter);
+    expect(mockRouter.push).toHaveBeenCalled();
+});
+```
+----
+Resize Observer Example
+```javascript
+// Example from Video.test.tsx
+
+const mockUseResizeObserver = jest.fn();
+jest.mock('use-resize-observer', () => ({
+    __esModule: true,
+    default: (...args: any) => mockUseResizeObserver(...args),
+}));
+```
+----
+Others
 ```javascript
 jest.mock('next/head', () => {
     return {
@@ -216,6 +247,7 @@ jest.mock('@/lib/os', () => {
 mockIsIOSApp.mockReturnValue(true);
 ```  
 ----
+Custom React Components
 ```javascript
 jest.mock('@/components/SocialMedia/SocialLinks', () => {
     return {
